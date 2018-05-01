@@ -17,9 +17,12 @@ import java.util.stream.Collectors;
 public class GlobeSortServer {
     private Server server;
 
+	private static int MAX_MESSAGE_SIZE = 100 * 1024 * 1024;
+
     private void start(String ip, int port) throws IOException {
         server = NettyServerBuilder.forAddress(new InetSocketAddress(ip, port))
                     .addService(new GlobeSortImpl())
+					.maxMessageSize(MAX_MESSAGE_SIZE)
                     .executor(Executors.newFixedThreadPool(10))
                     .build()
                     .start();

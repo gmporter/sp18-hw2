@@ -25,10 +25,13 @@ public class GlobeSortClient {
     private final ManagedChannel serverChannel;
     private final GlobeSortGrpc.GlobeSortBlockingStub serverStub;
 
+	private static int MAX_MESSAGE_SIZE = 100 * 1024 * 1024;
+
     private String serverStr;
 
     public GlobeSortClient(String ip, int port) {
         this.serverChannel = ManagedChannelBuilder.forAddress(ip, port)
+				.maxInboundMessageSize(MAX_MESSAGE_SIZE)
                 .usePlaintext(true).build();
         this.serverStub = GlobeSortGrpc.newBlockingStub(serverChannel);
 
